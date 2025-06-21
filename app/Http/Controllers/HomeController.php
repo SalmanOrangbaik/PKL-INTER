@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -16,13 +15,16 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+
+        $user = Auth::user();
+        //peralihan login sesuai role
+        if ($user->isAdmin == 1) {
+            return redirect('admin');
+        } else {
+            return redirect('/');
+        }
+        //return view('home');
     }
 }

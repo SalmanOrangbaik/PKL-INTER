@@ -2,7 +2,9 @@
 
 //import controller
 
+use App\Http\Controllers\BackendController;
 use App\Http\Controllers\MyController;
+use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,3 +53,11 @@ Route::delete('buku/{id}', [MyController::class, 'destroy']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//import middleware
+
+//route admin
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', Admin::class]], function () {
+
+    Route::get('/', [BackendController::class, 'index']);
+});
